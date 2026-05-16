@@ -3,17 +3,18 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
-  <meta name="theme-color" content="#000000" />
-  <title>CRACKED.EXE — Network School Edition</title>
+  <meta name="theme-color" content="#1a0000" />
+  <title>社会信用 · SOCIAL CREDIT SCANNER</title>
   <style>
     :root {
       color-scheme: dark;
-      --bg: #000;
-      --fg: #e6ffe6;
-      --accent: #00ff66;
-      --warn: #ff2e2e;
-      --amber: #ffb300;
-      --dim: #2a2a2a;
+      --bg: #0a0000;
+      --fg: #fff4d0;
+      --accent: #ffd700;
+      --red: #ee1c25;
+      --red-deep: #b81015;
+      --warn: #ff5252;
+      --dim: #2a0a0a;
       --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
     }
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -38,28 +39,44 @@
     /* ────── BOOT ────── */
     #boot {
       align-items: center; justify-content: center; text-align: center;
-      gap: 1.5rem; padding: 2rem;
+      gap: 1.2rem; padding: 2rem;
       background:
-        repeating-linear-gradient(0deg, rgba(0,255,102,.04) 0 1px, transparent 1px 3px),
-        radial-gradient(circle at 50% 30%, #001a08, #000 70%);
+        repeating-linear-gradient(0deg, rgba(255,215,0,.03) 0 1px, transparent 1px 3px),
+        radial-gradient(circle at 50% 30%, #3a0508, #0a0000 70%);
     }
-    #boot .logo {
-      font-size: clamp(2.2rem, 10vw, 4rem);
-      letter-spacing: .04em;
+    #boot .stars {
+      display: flex; gap: .4rem; align-items: center; justify-content: center;
+      color: var(--accent);
+      font-size: 1.6rem;
+      text-shadow: 0 0 12px rgba(255,215,0,.8);
+      margin-bottom: -.4rem;
+    }
+    #boot .han {
+      font-size: clamp(2.8rem, 12vw, 5rem);
+      letter-spacing: .15em;
       font-weight: 900;
       color: var(--accent);
-      text-shadow: 0 0 12px rgba(0,255,102,.6), 0 0 32px rgba(0,255,102,.25);
+      text-shadow: 0 0 16px rgba(255,215,0,.7), 0 0 36px rgba(238,28,37,.4);
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, var(--mono);
       animation: flicker 3s infinite;
     }
+    #boot .logo {
+      font-size: clamp(1.2rem, 5vw, 1.8rem);
+      letter-spacing: .25em;
+      font-weight: 900;
+      color: var(--accent);
+      margin-top: -.4rem;
+    }
     #boot .tag {
-      color: var(--amber);
+      color: var(--red);
       letter-spacing: .3em;
-      font-size: .8rem;
-      opacity: .8;
+      font-size: .75rem;
+      opacity: .9;
+      text-shadow: 0 0 6px rgba(238,28,37,.5);
     }
     #boot .blurb {
       max-width: 22rem;
-      opacity: .65;
+      opacity: .7;
       line-height: 1.5;
       font-size: .85rem;
     }
@@ -71,8 +88,8 @@
       font-weight: 700;
       letter-spacing: .2em;
       font-size: 1rem;
-      background: rgba(0,255,102,.05);
-      box-shadow: 0 0 24px rgba(0,255,102,.25), inset 0 0 24px rgba(0,255,102,.08);
+      background: rgba(238,28,37,.18);
+      box-shadow: 0 0 24px rgba(255,215,0,.3), inset 0 0 24px rgba(238,28,37,.2);
       animation: pulse 1.6s infinite;
     }
     #boot .cta:active { transform: scale(.97); }
@@ -80,17 +97,16 @@
       position: absolute;
       bottom: max(1rem, env(safe-area-inset-bottom));
       left: 50%; transform: translateX(-50%);
-      font-size: .65rem;
+      font-size: .6rem;
       letter-spacing: .25em;
-      opacity: .35;
+      opacity: .45;
       text-align: center;
       width: 100%;
+      color: var(--accent);
     }
 
     /* ────── CAMERA ────── */
-    #cam {
-      background: #000;
-    }
+    #cam { background: #000; }
     #cam video, #cam .nocam {
       position: absolute; inset: 0;
       width: 100%; height: 100%;
@@ -100,9 +116,9 @@
     #cam video.flip { transform: scaleX(-1); }
     .nocam {
       display: grid; place-items: center; text-align: center;
-      color: #555; font-size: .8rem; letter-spacing: .2em;
+      color: var(--red); font-size: .8rem; letter-spacing: .2em;
       background:
-        repeating-linear-gradient(45deg, #0a0a0a 0 8px, #060606 8px 16px);
+        repeating-linear-gradient(45deg, #1a0506 0 8px, #0a0203 8px 16px);
     }
     .hud {
       position: absolute; inset: 0;
@@ -117,9 +133,9 @@
       gap: 1rem;
       color: var(--accent);
       font-size: .7rem; letter-spacing: .2em;
-      text-shadow: 0 0 6px rgba(0,255,102,.6);
+      text-shadow: 0 0 6px rgba(255,215,0,.7);
     }
-    .hud-bot { color: var(--amber); text-shadow: 0 0 6px rgba(255,179,0,.5); }
+    .hud-bot { color: var(--red); text-shadow: 0 0 6px rgba(238,28,37,.6); }
     .reticle {
       position: absolute; inset: 0;
       display: grid; place-items: center;
@@ -128,10 +144,10 @@
     .reticle .box {
       width: min(75vw, 75vh);
       aspect-ratio: 1;
-      border: 1.5px solid var(--accent);
+      border: 1.5px solid var(--red);
       box-shadow:
-        inset 0 0 0 1px rgba(0,255,102,.15),
-        0 0 24px rgba(0,255,102,.18);
+        inset 0 0 0 1px rgba(255,215,0,.15),
+        0 0 24px rgba(238,28,37,.3);
       position: relative;
       animation: breathe 2.4s ease-in-out infinite;
     }
@@ -152,11 +168,11 @@
       gap: 1.2rem;
     }
     .scan-btn {
-      width: 88px; height: 88px;
+      width: 92px; height: 92px;
       border-radius: 50%;
       border: 3px solid var(--accent);
-      background: radial-gradient(circle, rgba(0,255,102,.25), rgba(0,255,102,.05));
-      box-shadow: 0 0 30px rgba(0,255,102,.5), inset 0 0 20px rgba(0,255,102,.2);
+      background: radial-gradient(circle, rgba(238,28,37,.5), rgba(238,28,37,.1));
+      box-shadow: 0 0 32px rgba(238,28,37,.6), inset 0 0 22px rgba(255,215,0,.25);
       color: var(--accent);
       font-weight: 900;
       letter-spacing: .15em;
@@ -166,10 +182,10 @@
     .flip-btn {
       width: 48px; height: 48px;
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,.4);
+      border: 1px solid rgba(255,215,0,.5);
       background: rgba(0,0,0,.5);
       backdrop-filter: blur(6px);
-      color: #fff;
+      color: var(--accent);
       font-size: 1.2rem;
     }
     .flip-btn:active { transform: scale(.92); }
@@ -184,13 +200,13 @@
       position: absolute; inset: 0;
       width: 100%; height: 100%;
       object-fit: cover;
-      filter: contrast(1.1) saturate(.7) hue-rotate(70deg);
+      filter: contrast(1.1) saturate(1.2) sepia(.2) hue-rotate(-20deg);
     }
     .scan-tint {
       position: absolute; inset: 0;
       background:
-        repeating-linear-gradient(0deg, rgba(0,255,102,.06) 0 2px, transparent 2px 4px),
-        rgba(0,40,10,.25);
+        repeating-linear-gradient(0deg, rgba(255,215,0,.08) 0 2px, transparent 2px 4px),
+        rgba(120,10,12,.35);
       mix-blend-mode: screen;
     }
     .scan-line {
@@ -202,7 +218,7 @@
     .scan-text {
       position: relative; z-index: 2;
       color: var(--accent);
-      text-shadow: 0 0 6px rgba(0,255,102,.7);
+      text-shadow: 0 0 6px rgba(255,215,0,.8);
       letter-spacing: .25em;
       font-size: .85rem;
       text-align: center;
@@ -215,15 +231,16 @@
     .scan-rolling {
       margin-top: 1rem;
       font-size: .7rem;
-      color: var(--amber);
-      text-shadow: 0 0 4px rgba(255,179,0,.5);
+      color: var(--red);
+      text-shadow: 0 0 4px rgba(238,28,37,.6);
       min-height: 1.2em;
       letter-spacing: .15em;
     }
 
     /* ────── RESULT (DOSSIER) ────── */
     #result {
-      background: #000;
+      background:
+        radial-gradient(circle at 50% 0%, #2a0608, #0a0000 70%);
       overflow: auto;
       padding-bottom: 0;
     }
@@ -240,39 +257,40 @@
       color: var(--accent);
       font-size: .65rem;
       letter-spacing: .2em;
-      opacity: .75;
+      opacity: .85;
     }
     .classified {
-      color: var(--warn);
-      border: 2px solid var(--warn);
+      color: var(--red);
+      border: 2px solid var(--red);
       padding: .15rem .5rem;
       font-weight: 900;
       letter-spacing: .25em;
       transform: rotate(-2deg);
       font-size: .65rem;
+      background: rgba(238,28,37,.08);
     }
     .mug {
       position: relative;
       aspect-ratio: 1;
       border: 1.5px solid var(--accent);
-      box-shadow: 0 0 18px rgba(0,255,102,.2);
+      box-shadow: 0 0 18px rgba(238,28,37,.3);
       overflow: hidden;
       background: #050505;
     }
     .mug canvas {
       width: 100%; height: 100%;
       display: block;
-      filter: contrast(1.15) saturate(.6) hue-rotate(50deg) brightness(.95);
+      filter: contrast(1.15) saturate(1.1) sepia(.18) hue-rotate(-15deg);
     }
     .mug .scanlines {
       position: absolute; inset: 0;
-      background: repeating-linear-gradient(0deg, rgba(0,255,102,.08) 0 1px, transparent 1px 3px);
+      background: repeating-linear-gradient(0deg, rgba(255,215,0,.07) 0 1px, transparent 1px 3px);
       pointer-events: none;
     }
     .mug .id-strip {
       position: absolute;
       bottom: 0; left: 0; right: 0;
-      background: rgba(0,0,0,.7);
+      background: rgba(0,0,0,.72);
       color: var(--accent);
       padding: .35rem .6rem;
       font-size: .6rem;
@@ -284,14 +302,14 @@
       display: flex; align-items: stretch; gap: .8rem;
       border: 1.5px solid var(--accent);
       padding: .8rem 1rem;
-      background: rgba(0,255,102,.04);
+      background: rgba(238,28,37,.12);
     }
     .score-num {
       font-size: 3.4rem;
       font-weight: 900;
       line-height: 1;
       color: var(--accent);
-      text-shadow: 0 0 16px rgba(0,255,102,.5);
+      text-shadow: 0 0 16px rgba(255,215,0,.6);
       font-variant-numeric: tabular-nums;
     }
     .score-label {
@@ -299,64 +317,66 @@
       gap: .25rem;
       flex: 1;
     }
-    .score-label .lab { font-size: .65rem; letter-spacing: .25em; opacity: .7; }
+    .score-label .lab { font-size: .65rem; letter-spacing: .25em; opacity: .8; color: var(--accent); }
     .score-label .verdict {
       font-size: .95rem; font-weight: 900;
-      color: var(--amber);
-      letter-spacing: .05em;
+      color: var(--red);
+      letter-spacing: .03em;
       line-height: 1.15;
+      text-shadow: 0 0 4px rgba(238,28,37,.4);
     }
     .tier-badge {
       align-self: center;
       width: 64px; height: 64px;
       display: grid; place-items: center;
-      font-size: 2rem; font-weight: 900;
-      color: var(--warn);
-      border: 3px solid var(--warn);
-      box-shadow: 0 0 18px rgba(255,46,46,.4), inset 0 0 12px rgba(255,46,46,.15);
+      font-size: 1.8rem; font-weight: 900;
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, var(--mono);
+      color: var(--red);
+      border: 3px solid var(--red);
+      box-shadow: 0 0 18px rgba(238,28,37,.5), inset 0 0 12px rgba(238,28,37,.2);
       transform: rotate(-6deg);
       letter-spacing: 0;
-      font-variant-numeric: tabular-nums;
     }
-    .tier-badge.s { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 18px rgba(0,255,102,.5), inset 0 0 12px rgba(0,255,102,.2); }
-    .tier-badge.a { color: var(--amber); border-color: var(--amber); box-shadow: 0 0 18px rgba(255,179,0,.45), inset 0 0 12px rgba(255,179,0,.15); }
+    .tier-badge.s { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 18px rgba(255,215,0,.6), inset 0 0 12px rgba(255,215,0,.25); }
+    .tier-badge.a { color: #ffaa1a; border-color: #ffaa1a; box-shadow: 0 0 18px rgba(255,170,26,.5), inset 0 0 12px rgba(255,170,26,.2); }
     .stats {
       display: flex; flex-direction: column;
-      border: 1px dashed rgba(0,255,102,.4);
+      border: 1px dashed rgba(255,215,0,.4);
       padding: .6rem .8rem;
-      background: rgba(0,40,10,.15);
+      background: rgba(60,5,8,.35);
     }
     .stats .row {
       display: flex; justify-content: space-between;
       gap: 1rem;
       padding: .35rem 0;
-      border-bottom: 1px dotted rgba(0,255,102,.18);
+      border-bottom: 1px dotted rgba(255,215,0,.18);
       font-size: .8rem;
     }
     .stats .row:last-child { border-bottom: 0; }
-    .stats .k { opacity: .65; letter-spacing: .08em; text-transform: uppercase; font-size: .68rem; }
+    .stats .k { opacity: .7; letter-spacing: .08em; text-transform: uppercase; font-size: .68rem; color: var(--accent); }
     .stats .v { color: var(--accent); font-weight: 700; text-align: right; max-width: 60%; }
-    .stats .v.warn { color: var(--warn); }
-    .stats .v.amber { color: var(--amber); }
+    .stats .v.warn { color: var(--red); }
+    .stats .v.amber { color: #ffaa1a; }
     .recs {
-      border-left: 3px solid var(--warn);
+      border-left: 3px solid var(--red);
       padding: .5rem .8rem;
-      background: rgba(255,46,46,.06);
+      background: rgba(238,28,37,.12);
       font-size: .78rem;
       line-height: 1.4;
     }
-    .recs .h { color: var(--warn); letter-spacing: .2em; font-size: .65rem; font-weight: 900; margin-bottom: .25rem; }
+    .recs .h { color: var(--red); letter-spacing: .2em; font-size: .65rem; font-weight: 900; margin-bottom: .25rem; }
     .sig {
       display: flex; justify-content: space-between; align-items: center;
       font-size: .6rem; letter-spacing: .2em;
-      opacity: .55;
+      opacity: .65;
       padding-top: .3rem;
+      color: var(--accent);
     }
     .actions {
       position: sticky; bottom: 0;
       display: flex; gap: .6rem;
       padding: .8rem 1rem max(1rem, env(safe-area-inset-bottom));
-      background: linear-gradient(180deg, transparent, #000 30%);
+      background: linear-gradient(180deg, transparent, #0a0000 30%);
       max-width: 480px; width: 100%; margin: 0 auto;
     }
     .actions button {
@@ -367,12 +387,12 @@
       font-weight: 900;
       letter-spacing: .15em;
       font-size: .8rem;
-      background: rgba(0,255,102,.06);
+      background: rgba(255,215,0,.08);
     }
     .actions button.alt {
-      border-color: var(--amber);
-      color: var(--amber);
-      background: rgba(255,179,0,.05);
+      border-color: var(--red);
+      color: var(--red);
+      background: rgba(238,28,37,.12);
     }
     .actions button:active { transform: scale(.96); }
 
@@ -382,8 +402,8 @@
       20%, 24%, 55% { opacity: .55; }
     }
     @keyframes pulse {
-      0%, 100% { box-shadow: 0 0 24px rgba(0,255,102,.25), inset 0 0 24px rgba(0,255,102,.08); }
-      50% { box-shadow: 0 0 38px rgba(0,255,102,.55), inset 0 0 36px rgba(0,255,102,.18); }
+      0%, 100% { box-shadow: 0 0 24px rgba(255,215,0,.3), inset 0 0 24px rgba(238,28,37,.2); }
+      50% { box-shadow: 0 0 38px rgba(255,215,0,.6), inset 0 0 36px rgba(238,28,37,.4); }
     }
     @keyframes breathe {
       0%, 100% { transform: scale(1); opacity: 1; }
@@ -393,9 +413,7 @@
       0% { top: 0; }
       100% { top: 100%; }
     }
-    .glitch {
-      animation: glitch .25s steps(2) 4;
-    }
+    .glitch { animation: glitch .25s steps(2) 4; }
     @keyframes glitch {
       0% { transform: translate(0); }
       20% { transform: translate(-2px, 1px); }
@@ -412,32 +430,34 @@
 
   <!-- BOOT -->
   <section id="boot" class="screen active">
-    <div class="tag">▸ CLEARANCE LEVEL: NETWORK STATE ◂</div>
-    <div class="logo">CRACKED.EXE</div>
+    <div class="tag">▸ 中央网络国 · MINISTRY OF NETWORK STATES ◂</div>
+    <div class="stars">★ ★ ★ ★ ★</div>
+    <div class="han">社会信用</div>
+    <div class="logo">SOCIAL CREDIT SCANNER</div>
     <div class="blurb">
-      Covert founder-vibes assessment.<br>
-      Point. Scan. Receive dossier.<br>
+      Civilian compliance assessment.<br>
+      Point. Scan. Receive sentencing.<br>
       Results are final and binding.
     </div>
-    <button class="cta" id="bootStart">▸ INITIATE SCAN ◂</button>
-    <div class="footer">FOR INTERNAL NS USE ONLY · v0.4.2-alpha</div>
+    <button class="cta" id="bootStart">▸ BEGIN ASSESSMENT ◂</button>
+    <div class="footer">机密 · CLASSIFIED · CADRE EYES ONLY · v3.0.0</div>
   </section>
 
   <!-- CAMERA -->
   <section id="cam" class="screen">
     <video id="video" autoplay playsinline muted></video>
     <div class="nocam hidden" id="nocam">
-      [ CAMERA OFFLINE ]<br><br>
-      tap SCAN to run<br>blind vibe analysis
+      [ 摄像头离线 ]<br><br>
+      tap SCAN to run<br>blind compliance audit
     </div>
     <div class="hud">
       <div class="hud-top">
-        <span>● REC · LIVE</span>
+        <span>● 录制中 · LIVE</span>
         <span id="hudClock">00:00:00</span>
       </div>
       <div class="hud-bot">
         <span>NS-CAM /01</span>
-        <span>TARGET: ACQUIRING</span>
+        <span>目标: ACQUIRING</span>
       </div>
     </div>
     <div class="reticle">
@@ -450,7 +470,7 @@
     </div>
     <div class="cam-controls">
       <button class="flip-btn" id="flipBtn" aria-label="Flip camera">⟲</button>
-      <button class="scan-btn" id="scanBtn">SCAN</button>
+      <button class="scan-btn" id="scanBtn">扫描<br>SCAN</button>
       <button class="flip-btn" id="exitBtn" aria-label="Exit">×</button>
     </div>
   </section>
@@ -461,25 +481,25 @@
     <div class="scan-tint"></div>
     <div class="scan-line"></div>
     <div class="scan-text">
-      <big>▸ ANALYZING SUBJECT ▸</big>
+      <big>▸ 分析公民 · ANALYZING SUBJECT ▸</big>
       <span id="scanPhase">CALIBRATING APERTURE</span>
       <div class="scan-rolling" id="scanRoll"></div>
     </div>
   </section>
 
-  <!-- RESULT (DOSSIER) -->
+  <!-- RESULT -->
   <section id="result" class="screen">
     <div class="dossier" id="dossier">
       <div class="stamp-row">
-        <span>FILE NO. <span id="caseNo">—</span></span>
-        <span class="classified">CLASSIFIED</span>
+        <span>档案 <span id="caseNo">—</span></span>
+        <span class="classified">机密 · CLASSIFIED</span>
       </div>
 
       <div class="mug">
         <canvas id="mugCanvas"></canvas>
         <div class="scanlines"></div>
         <div class="id-strip">
-          <span id="idName">SUBJECT-001</span>
+          <span id="idName">公民-001</span>
           <span id="idTime">NS-LAT</span>
         </div>
       </div>
@@ -487,8 +507,8 @@
       <div class="score-block">
         <div class="score-num" id="scoreNum">—</div>
         <div class="score-label">
-          <div class="lab">CRACKED SCORE / 100</div>
-          <div class="verdict" id="verdict">PENDING</div>
+          <div class="lab">SOCIAL CREDIT · 社会信用分</div>
+          <div class="verdict" id="verdict">待定 PENDING</div>
         </div>
         <div class="tier-badge" id="tierBadge">?</div>
       </div>
@@ -496,17 +516,17 @@
       <div class="stats" id="stats"></div>
 
       <div class="recs">
-        <div class="h">▸ RECOMMENDED ACTION</div>
+        <div class="h">▸ 建议处理 · RECOMMENDED ACTION</div>
         <div id="rec">—</div>
       </div>
 
       <div class="sig">
-        <span id="examiner">EXAMINER: AGENT-7G</span>
-        <span>★ NS DOSSIER ★</span>
+        <span id="examiner">干部 CADRE-7G</span>
+        <span>★ 中央网络国 ★</span>
       </div>
     </div>
     <div class="actions">
-      <button id="againBtn">↺ SCAN ANOTHER</button>
+      <button id="againBtn">↺ NEXT CITIZEN</button>
       <button id="shareBtn" class="alt">⤓ SAVE / SHARE</button>
     </div>
   </section>
@@ -514,63 +534,63 @@
   <script type="module">
     // ────── DATA ──────
     const STAT_POOL = [
-      { k: "EYE BAG DEPTH",        v: ["MAXIMUM","GENERATIONAL","WEAPONIZED","CONCERNING","IRONIC","UNREMARKABLE","TOURIST-GRADE"] },
-      { k: "LAST TOUCHED GRASS",   v: ["Q2 2021","Q4 2023","NEVER","IN A DREAM","BURNING MAN '24","LAST TUESDAY (BRIEFLY)","UNVERIFIED"] },
-      { k: "CONVICTION",           v: ["GENERATIONAL","FORTRESS-GRADE","LEAKING","UNDEPOSITED","VINTAGE 2017","SUS","RECENTLY ACQUIRED"] },
-      { k: "POSTURE",              v: ["COLLAPSED","HUNCHED (PROUDLY)","RECOVERING","UPRIGHT (SUSPICIOUS)","KYPHOTIC","STANDING-DESK-CODED"] },
-      { k: "AURA",                 v: ["AGENT-CODED","E/ACC","DOOMER","RUST-PILLED","FOUNDER","MID","LOCKED IN","NORMIE-ADJACENT","RAMEN-PILLED"] },
-      { k: "CAFFEINE IN SYSTEM",   v: ["4 ESPRESSOS","LETHAL","SUB-CLINICAL","IV DRIP","DECAF (RED FLAG)","NICOTINE-COPING","DRY FAST"] },
-      { k: "VC CONTACT FREQUENCY", v: ["HOURLY","RESTRAINING ORDER","GHOST MODE","PAUL G REPLIED ONCE","BLOCKED BY 3 GPs","SHADOW DM"] },
-      { k: "PITCH DECK COUNT",     v: ["3 (FOCUSED)","47","LOST COUNT","ZERO (HUGE RED FLAG)","ONE BUT IT'S PERFECT","DELETED THEM ALL"] },
-      { k: "TOKEN LAUNCH ETA",     v: ["Q3","SOON™","LAUNCHED & RUGGED","DIGNIFIED ABSTENTION","TGE NEVER","STEALTH","IN COURT"] },
-      { k: "GPU CREDITS LEFT",     v: ["0","47K (HOARDED)","ASKED SAM DIRECTLY","NEGATIVE","ALL ON RUNPOD","CLAIMS H100s, SHOWS T4"] },
-      { k: "SLEEP SCHEDULE",       v: ["3AM – 7AM","BIPHASIC","MONOMANIAC","SUS (8 HOURS)","STIMULANT-DEPENDENT","DREAM-RUN"] },
-      { k: "FOLLOWER MOMENTUM",    v: ["+340/DAY","PLATEAUED","SHADOWBANNED","BALAJI RT'D ONCE","BOT-FARMED","ORGANICALLY MID"] },
-      { k: "COPE RESERVES",        v: ["LOW","DEPLETED","WEAPONIZED","INFINITE","OFFSHORE","DENIED EXISTENCE"] },
-      { k: "GRINDSET INTEGRITY",   v: ["CRYSTALLINE","FRACTURING","PERFORMATIVE","UNDIAGNOSED","INHERITED","WEEKEND ONLY"] },
-      { k: "SHIP CADENCE",         v: ["DAILY","ANNOUNCED ONLY","TWEETED, NOT SHIPPED","DEMO-DAY-CODED","STEALTH SINCE 2022","SHIPS IN DREAMS"] },
-      { k: "NS DEPENDENCY",        v: ["TERMINAL","INHERITED","WEEKEND-PASS","LIFER","SUS (NEVER LEAVES KOPI)","ARRIVED VIA SINGAPORE"] },
-      { k: "AGENT FLEET SIZE",     v: ["0","1 (NAMED IT)","12 SUBORDINATES","ARMY","HIRED & FIRED 4","ONE THAT JUST CRIES"] },
-      { k: "LONGEVITY PROTOCOL",   v: ["BRYAN-CODED","COFFEE & DENIAL","RAW DAIRY","DEXA THIS WEEK","SOYLENT 2019","NONE (TOO BUSY)"] },
-      { k: "MOAT",                 v: ["TASTE","UNCLEAR","FOUNDER MARKET FIT","VIBES","ONE TWEET","FRIENDS WITH PMARCA","ENERGY DRINKS"] },
+      { k: "DEVOTION TO PARTY",     v: ["EXEMPLARY","ADEQUATE","UNDER REVIEW","TREASONOUS","PERFORMATIVE","VPN-COMPROMISED","GENERATIONAL"] },
+      { k: "WECHAT MOMENTS HYGIENE",v: ["SPOTLESS","SUS POSTS","DELETED EVIDENCE","FOREIGN AGENT-CODED","NORMIE","BAILED OUT","TWICE-FLAGGED"] },
+      { k: "VPN USAGE",             v: ["NEVER (MODEL)","DAILY (FLAGGED)","ASTRILL POWER USER","RAW-DOGGING THE GFW","OPERA VPN (TRAGIC)","CLAIMS NONE"] },
+      { k: "DOUYIN HOURS/DAY",      v: ["0 (SUSPICIOUS)","4.7","BANNED 3X","MAINSTAGE INFLUENCER","FYP PRISONER","BIPHASIC SCROLL"] },
+      { k: "BITCOIN HOLDINGS",      v: ["0 (CORRECT)","ILLEGAL AMOUNT","HUOBI BAGS","LOST KEYS (LUCKY)","DECLARED TO XI","TG SCAM RESIDUE","RUNNING NODE"] },
+      { k: "LAST MILITARY DRILL",   v: ["YESTERDAY","1989 (SUS)","EXEMPT (SUS)","VOLUNTEERED 4X","FAKED INJURY","CLAIMS LEG"] },
+      { k: "TAIWAN POSITION",       v: ["UNAMBIGUOUS","SUS","WORKING ON IT","GENERATIONAL CLARITY","WROTE A SUBSTACK (AUDIT)","REFUSED TO ANSWER"] },
+      { k: "GUANXI 关系",           v: ["GENERATIONAL","INHERITED","BOUGHT","ZERO (ALONE)","NEPO-CODED","HALF-UNCLE TIER","CLAIMS JACK MA"] },
+      { k: "MOTHER'S APPROVAL",     v: ["MAXIMUM","DISAPPOINTED","SHE'S CALLING NOW","ESTRANGED (RED FLAG)","GRANDCHILD OVERDUE","WEEKLY HOTPOT"] },
+      { k: "TENCENT EQUITY",        v: ["VESTED","STOLEN","REFUSED (SUS)","SHADOW HOLDING","CLAIMS IPO ALLOC","ALIBABA INSTEAD"] },
+      { k: "GAOKAO 高考 PERCENTILE",v: ["TOP 1%","FAILED 3X","BOUGHT THE PAPERS","PARENTS LIED","BURNT OUT @ 17","SHANGHAI EXEMPT"] },
+      { k: "996 ADHERENCE",         v: ["EXCEEDS (007)","PERFORMATIVE","WFH ABUSER","QUIET QUITTER","BOSS APPROVED","CALLED IT TOXIC ONCE"] },
+      { k: "DJI DRONE HOURS",       v: ["0 (SUS)","FLEET COMMANDER","CRASHED 2","GREY-MARKET BUILD","BANNED FROM SKY","REPORTED A NEIGHBOR"] },
+      { k: "BUBBLE TEA INTAKE",     v: ["WEEKLY LIMIT EXCEEDED","MODERATE","BOBA-FREE (SUS)","HEYTEA STOCKHOLDER","DIABETIC ARC","ALL FOR THE BURN"] },
+      { k: "MANDARIN FLUENCY",      v: ["NATIVE","HEAVILY ACCENTED","DUOLINGO STREAK 47","ABC IN DENIAL","HSK 4 (SAD)","CLAIMS NATIVE, IS NOT"] },
+      { k: "MAHJONG WIN RATE",      v: ["GRANDMA-FEARED","SUS","NEVER LEARNED (HUGE FLAG)","LOSES TO MOM","ONLINE ONLY (RIGGED)","UNDEFEATED"] },
+      { k: "RED SCARF YEARS",       v: ["6","2 (CUT SHORT)","REFUSED","STILL WEARS IT","LOST IT (CARELESS)","BURNT (TREASON)"] },
+      { k: "TIKTOK USAGE",          v: ["DOMESTIC ONLY","ALSO FOREIGN ONE (FLAG)","UPLOADER","BANNED","CLAIMS NEITHER","RAN A FYP PSYOP"] },
+      { k: "SINGAPORE PR STATUS",   v: ["PENDING 4 YEARS","DENIED","CLAIMS DUAL","BURNT PASSPORT","NS DEPENDENT","RENTED ADDRESS"] },
+      { k: "BALAJI EXPOSURE",       v: ["GENERATIONAL","WEEKLY DOSE","RT'D ONCE","DENIES KNOWING HIM","RECENTLY MENTIONED","UNFOLLOWED 2023"] },
     ];
 
     const VERDICTS = [
-      { min: 92, tier: "S+", txt: "GENERATIONAL TALENT — ALERT A16Z", rec: "Acquire immediately. Issue NS lifetime pass. Cancel all of subject's meetings — they are doing the real work." },
-      { min: 80, tier: "S",  txt: "CRACKED — FUND ON SIGHT",          rec: "Lead seed. Do not over-diligence. Subject will be unreachable in 6 weeks." },
-      { min: 68, tier: "A",  txt: "ACQUIHIRE BAIT — STRONG TWEET GAME", rec: "Recommend Google soft-landing in 14–18 months. Until then, hype publicly, short privately." },
-      { min: 55, tier: "B",  txt: "MID — NPC-CODED",                   rec: "Subject means well. Suggest a co-founder. Do not let them present alone." },
-      { min: 42, tier: "C",  txt: "TOURIST — RETURN TO CONSULTING",     rec: "Withdraw NS lanyard. Issue polite redirect to McKinsey. They will be happier." },
-      { min: 25, tier: "D",  txt: "FRAUD DETECTED — INITIATE COPE PROTOCOL", rec: "Revoke kopi privileges. Subject is one bad podcast away from a Substack." },
-      { min: 0,  tier: "F",  txt: "NORMIE INFILTRATOR — EJECT",         rec: "Quietly remove from group chats. Do not engage. Notify Balaji." },
+      { min: 92, tier: "模范", txt: "EXEMPLARY CITIZEN — INVITE TO BEIJING",          rec: "Promote immediately. Issue red banner. Subject to be featured in next 5-year-plan recruitment brochure. Pension secured." },
+      { min: 80, tier: "优",   txt: "MODEL WORKER — PROMOTED",                         rec: "Award third-tier merit. Permit travel to Hainan. Subject may now name one (1) child after the Party." },
+      { min: 68, tier: "良",   txt: "ACCEPTABLE — CONTINUE MONITORING",                 rec: "Maintain quarterly reviews. WeChat audit on file. Subject's mother will be contacted for behavioral context." },
+      { min: 55, tier: "中",   txt: "FLAGGED — VOLUNTARY RE-EDUCATION SUGGESTED",       rec: "Two weeks of voluntary correctional study. Subject must delete 3 sus tweets. Bubble tea privileges suspended." },
+      { min: 42, tier: "差",   txt: "DELINQUENT — TRAVEL PERMISSIONS REVOKED",          rec: "High-speed rail tickets canceled. Subject placed on Did-Not-Fly list. Mother informed. Cousin disappointed." },
+      { min: 25, tier: "劣",   txt: "CLASS ENEMY — INTERNAL EXILE",                     rec: "Relocate to administrative role in tier-4 city. Permanent ban from livestreaming. Wallet downgraded." },
+      { min: 0,  tier: "敌",   txt: "FOREIGN AGENT — XI HAS BEEN NOTIFIED",             rec: "Initiate full audit. Subject likely confused crypto with currency. Notify all relatives. Lanyard rescinded." },
     ];
 
     const ROLL_LINES = [
-      "indexing pupil dilation…",
-      "cross-referencing twitter cohort…",
-      "estimating last shower delta…",
-      "parsing posture against y-c batch '21…",
-      "querying balaji's substack for mention…",
-      "weighing kopi consumption vs output…",
-      "fingerprinting macbook sticker density…",
+      "indexing wechat moments…",
+      "cross-referencing tiktok cohort…",
+      "estimating last hotpot delta…",
+      "parsing posture against red guard archive…",
+      "querying state council for prior offenses…",
+      "weighing bubble tea consumption vs output…",
+      "fingerprinting xiaohongshu sticker density…",
       "auditing announced vs shipped ratio…",
-      "compiling restraining-order graph…",
+      "compiling cousin-disappointment graph…",
       "running cope-volatility check…",
-      "estimating ramen-equity ratio…",
-      "scanning for unironic 'agent' usage…",
-      "calibrating against pmarca thumb…",
+      "estimating noodle-equity ratio…",
+      "scanning for unironic 'taiwan' usage…",
+      "calibrating against jack ma silhouette…",
       "decrypting dexa scan rumors…",
-      "checking founder-mode authenticity…",
+      "checking party-mode authenticity…",
+      "pinging grandmother for second opinion…",
+      "verifying mandarin tone accuracy…",
+      "cross-referencing astrill subscription db…",
     ];
 
-    const NAMES = ["SUBJECT","TARGET","ASSET","CANDIDATE","UNIT","SPECIMEN","ANOMALY"];
+    const NAMES = ["公民","同志","目标","CITIZEN","SUBJECT","ASSET","CADRE-CANDIDATE"];
 
     // ────── STATE ──────
-    const state = {
-      stream: null,
-      facing: "user",
-      snapshot: null,
-    };
+    const state = { stream: null, facing: "user", snapshot: null };
 
     // ────── UTIL ──────
     const $ = (s) => document.querySelector(s);
@@ -581,16 +601,12 @@
       for (const s of document.querySelectorAll(".screen")) s.classList.remove("active");
       $("#" + id).classList.add("active");
     }
-
     function pad(n, w = 2) { return String(n).padStart(w, "0"); }
     function startClock() {
       const t0 = Date.now();
       const tick = () => {
         const d = Date.now() - t0;
-        const h = pad(Math.floor(d / 3600000));
-        const m = pad(Math.floor(d / 60000) % 60);
-        const s = pad(Math.floor(d / 1000) % 60);
-        $("#hudClock").textContent = `${h}:${m}:${s}`;
+        $("#hudClock").textContent = `${pad(Math.floor(d/3600000))}:${pad(Math.floor(d/60000)%60)}:${pad(Math.floor(d/1000)%60)}`;
       };
       tick();
       return setInterval(tick, 1000);
@@ -618,55 +634,39 @@
       }
     }
     function stopCam() {
-      if (state.stream) {
-        for (const t of state.stream.getTracks()) t.stop();
-        state.stream = null;
-      }
+      if (state.stream) { for (const t of state.stream.getTracks()) t.stop(); state.stream = null; }
     }
 
     function snapshot() {
       const v = $("#video");
       const c = document.createElement("canvas");
-      const w = v.videoWidth || 720;
-      const h = v.videoHeight || 1280;
+      const w = v.videoWidth || 720, h = v.videoHeight || 1280;
       const size = Math.min(w, h);
-      c.width = size;
-      c.height = size;
+      c.width = size; c.height = size;
       const ctx = c.getContext("2d");
-      const sx = (w - size) / 2;
-      const sy = (h - size) / 2;
-      if (state.facing === "user") {
-        ctx.translate(size, 0);
-        ctx.scale(-1, 1);
-      }
-      try {
-        ctx.drawImage(v, sx, sy, size, size, 0, 0, size, size);
-      } catch (e) {
-        ctx.fillStyle = "#0a0a0a";
-        ctx.fillRect(0, 0, size, size);
-      }
+      const sx = (w - size) / 2, sy = (h - size) / 2;
+      if (state.facing === "user") { ctx.translate(size, 0); ctx.scale(-1, 1); }
+      try { ctx.drawImage(v, sx, sy, size, size, 0, 0, size, size); }
+      catch (e) { ctx.fillStyle = "#0a0a0a"; ctx.fillRect(0, 0, size, size); }
       return c;
     }
 
     function paintCanvas(target, src) {
       const ctx = target.getContext("2d");
-      const w = target.width = 720;
-      const h = target.height = 720;
-      if (src) {
-        ctx.drawImage(src, 0, 0, w, h);
-      } else {
-        // No camera fallback — checkerboard "REDACTED" texture
-        ctx.fillStyle = "#0a0a0a";
-        ctx.fillRect(0, 0, w, h);
-        ctx.fillStyle = "#101010";
+      const w = target.width = 720, h = target.height = 720;
+      if (src) ctx.drawImage(src, 0, 0, w, h);
+      else {
+        ctx.fillStyle = "#1a0506"; ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = "#2a0a0c";
         for (let y = 0; y < h; y += 36)
-          for (let x = (y / 36 % 2) * 36; x < w; x += 72)
-            ctx.fillRect(x, y, 36, 36);
-        ctx.fillStyle = "#ff2e2e";
+          for (let x = (y / 36 % 2) * 36; x < w; x += 72) ctx.fillRect(x, y, 36, 36);
+        ctx.fillStyle = "#ee1c25";
         ctx.font = "900 64px ui-monospace, monospace";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
-        ctx.fillText("REDACTED", w / 2, h / 2);
+        ctx.fillText("机密", w / 2, h / 2 - 40);
+        ctx.font = "900 44px ui-monospace, monospace";
+        ctx.fillText("REDACTED", w / 2, h / 2 + 28);
       }
     }
 
@@ -676,8 +676,7 @@
     function beep(freq = 880, dur = 0.08, type = "square", gain = 0.06) {
       try {
         const ac = audio();
-        const o = ac.createOscillator();
-        const g = ac.createGain();
+        const o = ac.createOscillator(), g = ac.createGain();
         o.type = type; o.frequency.value = freq;
         g.gain.value = gain;
         o.connect(g).connect(ac.destination);
@@ -698,23 +697,17 @@
       state.snapshot = state.stream ? snapshot() : null;
       paintCanvas($("#scanFrame"), state.snapshot);
       show("scanning");
-      // Telegraph during scan
       let n = 0;
       const sfx = setInterval(() => {
         beep(400 + Math.random() * 1200, 0.03, "square", 0.025);
         if (++n > 12) clearInterval(sfx);
       }, 200);
 
-      const phases = ["CALIBRATING APERTURE","BIOMETRIC LOCK","CROSS-REF NS DATABASE","TIER ASSESSMENT","COMPILING DOSSIER"];
-      const rollEl = $("#scanRoll");
-      const phaseEl = $("#scanPhase");
+      const phases = ["CALIBRATING APERTURE","BIOMETRIC LOCK","CROSS-REF MINISTRY DB","SOCIAL CREDIT ASSESSMENT","COMPILING DOSSIER"];
+      const rollEl = $("#scanRoll"), phaseEl = $("#scanPhase");
       let i = 0;
-      const phaseTimer = setInterval(() => {
-        phaseEl.textContent = phases[Math.min(i++, phases.length - 1)];
-      }, 600);
-      const rollTimer = setInterval(() => {
-        rollEl.textContent = "▸ " + pick(ROLL_LINES);
-      }, 220);
+      const phaseTimer = setInterval(() => { phaseEl.textContent = phases[Math.min(i++, phases.length - 1)]; }, 600);
+      const rollTimer  = setInterval(() => { rollEl.textContent  = "▸ " + pick(ROLL_LINES); }, 220);
 
       await new Promise((r) => setTimeout(r, 2800));
       clearInterval(phaseTimer);
@@ -722,7 +715,7 @@
       clearInterval(sfx);
       buildDossier();
       show("result");
-      // Reveal sting — descending chord = doom, ascending = win
+
       const sc = parseInt($("#scoreNum").textContent, 10);
       const win = sc >= 70;
       const seq = win ? [523, 659, 784, 1047] : [392, 311, 233, 196];
@@ -736,11 +729,10 @@
     }
 
     function buildDossier() {
-      // Score weighted to extremes for comedic value
       let score;
       const r = Math.random();
-      if (r < 0.35)      score = Math.floor(Math.random() * 25 + 75); // 75-99
-      else if (r < 0.55) score = Math.floor(Math.random() * 18 + 5);  // 5-22
+      if (r < 0.35)      score = Math.floor(Math.random() * 25 + 75);
+      else if (r < 0.55) score = Math.floor(Math.random() * 18 + 5);
       else               score = Math.floor(Math.random() * 100);
       score = Math.max(1, Math.min(99, score));
 
@@ -752,14 +744,14 @@
       const badge = $("#tierBadge");
       badge.textContent = verdict.tier;
       badge.classList.remove("s","a");
-      if (verdict.tier.startsWith("S")) badge.classList.add("s");
-      else if (verdict.tier === "A")    badge.classList.add("a");
+      if (verdict.tier === "模范" || verdict.tier === "优") badge.classList.add("s");
+      else if (verdict.tier === "良") badge.classList.add("a");
+
       $("#caseNo").textContent = "NS-" + String(Math.floor(Math.random() * 9000 + 1000));
       $("#idName").textContent = pick(NAMES) + "-" + String(Math.floor(Math.random() * 900 + 100));
       $("#idTime").textContent = new Date().toISOString().slice(11, 19) + "Z";
-      $("#examiner").textContent = "EXAMINER: AGENT-" + Math.floor(Math.random() * 9) + "G";
+      $("#examiner").textContent = "干部 CADRE-" + Math.floor(Math.random() * 9) + "G";
 
-      // Stats — pick 6, randomize values, color a couple
       const picked = shuffle(STAT_POOL).slice(0, 6);
       const html = picked.map((s, idx) => {
         const v = pick(s.v);
@@ -770,133 +762,139 @@
 
       paintCanvas($("#mugCanvas"), state.snapshot);
 
-      // Glitch in
       const d = $("#dossier");
       d.classList.remove("glitch");
       void d.offsetWidth;
       d.classList.add("glitch");
     }
 
-    // ────── SHARE / SAVE ──────
+    // ────── SHARE ──────
     async function shareDossier() {
       const blob = await renderDossierPNG();
       if (!blob) return;
-      const file = new File([blob], "cracked-dossier.png", { type: "image/png" });
-
+      const file = new File([blob], "social-credit.png", { type: "image/png" });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         try {
-          await navigator.share({ files: [file], title: "CRACKED.EXE Dossier", text: "Network School Edition" });
+          await navigator.share({ files: [file], title: "Social Credit Score", text: "我的社会信用 · my dossier" });
           return;
-        } catch (e) { /* user cancelled — fall through to download */ }
+        } catch (e) {}
       }
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      a.href = url; a.download = "cracked-dossier.png";
+      a.href = url; a.download = "social-credit.png";
       document.body.appendChild(a); a.click(); a.remove();
       URL.revokeObjectURL(url);
     }
 
     async function renderDossierPNG() {
-      // Compose a high-contrast share card on a canvas (so it works without html2canvas)
       const W = 1080, H = 1620;
       const c = document.createElement("canvas");
       c.width = W; c.height = H;
       const ctx = c.getContext("2d");
 
-      // BG
-      ctx.fillStyle = "#000";
+      // BG — deep red gradient
+      const grad = ctx.createRadialGradient(W/2, 0, 100, W/2, H, 1400);
+      grad.addColorStop(0, "#3a0608");
+      grad.addColorStop(1, "#0a0000");
+      ctx.fillStyle = grad;
       ctx.fillRect(0, 0, W, H);
-      // Scanlines
-      ctx.fillStyle = "rgba(0,255,102,0.04)";
+      ctx.fillStyle = "rgba(255,215,0,0.04)";
       for (let y = 0; y < H; y += 3) ctx.fillRect(0, y, W, 1);
 
       const pad = 60;
       let y = pad;
 
       // Header
-      ctx.fillStyle = "#00ff66";
-      ctx.font = "900 36px ui-monospace, monospace";
+      ctx.fillStyle = "#ffd700";
+      ctx.font = "900 30px ui-monospace, monospace";
       ctx.textAlign = "left";
-      ctx.fillText("CRACKED.EXE", pad, y + 36);
-      ctx.fillStyle = "#ffb300";
-      ctx.font = "700 18px ui-monospace, monospace";
-      ctx.fillText("NETWORK SCHOOL EDITION · v0.4.2", pad, y + 66);
+      ctx.fillText("★ ★ ★ ★ ★", pad, y + 28);
+      ctx.font = "900 44px 'PingFang SC','Hiragino Sans GB','Microsoft YaHei',ui-monospace,monospace";
+      ctx.fillText("社会信用", pad, y + 78);
+      ctx.fillStyle = "#ee1c25";
+      ctx.font = "900 22px ui-monospace, monospace";
+      ctx.fillText("SOCIAL CREDIT SCANNER · v3.0", pad, y + 108);
+
       // Classified stamp
       ctx.save();
-      ctx.translate(W - pad - 30, y + 50);
+      ctx.translate(W - pad - 30, y + 60);
       ctx.rotate(-0.04);
-      ctx.strokeStyle = "#ff2e2e";
+      ctx.strokeStyle = "#ee1c25";
       ctx.lineWidth = 4;
-      ctx.strokeRect(-180, -30, 180, 56);
-      ctx.fillStyle = "#ff2e2e";
-      ctx.font = "900 28px ui-monospace, monospace";
+      ctx.strokeRect(-220, -34, 220, 64);
+      ctx.fillStyle = "rgba(238,28,37,0.1)";
+      ctx.fillRect(-220, -34, 220, 64);
+      ctx.fillStyle = "#ee1c25";
+      ctx.font = "900 26px ui-monospace, monospace";
       ctx.textAlign = "center";
-      ctx.fillText("CLASSIFIED", -90, 8);
+      ctx.fillText("机密 CLASSIFIED", -110, 6);
       ctx.restore();
 
-      y += 110;
+      y += 145;
 
       // Mug
       const mugSize = W - pad * 2;
-      ctx.fillStyle = "#080808";
+      ctx.fillStyle = "#080000";
       ctx.fillRect(pad, y, mugSize, mugSize);
       const mc = $("#mugCanvas");
       ctx.save();
-      ctx.filter = "contrast(1.15) saturate(0.6) hue-rotate(50deg)";
+      ctx.filter = "contrast(1.15) saturate(1.1) sepia(0.18) hue-rotate(-15deg)";
       ctx.drawImage(mc, pad, y, mugSize, mugSize);
       ctx.restore();
-      ctx.strokeStyle = "#00ff66";
+      ctx.strokeStyle = "#ffd700";
       ctx.lineWidth = 3;
       ctx.strokeRect(pad, y, mugSize, mugSize);
-      // id strip
-      ctx.fillStyle = "rgba(0,0,0,0.72)";
+      ctx.fillStyle = "rgba(0,0,0,0.74)";
       ctx.fillRect(pad, y + mugSize - 56, mugSize, 56);
-      ctx.fillStyle = "#00ff66";
+      ctx.fillStyle = "#ffd700";
       ctx.font = "700 22px ui-monospace, monospace";
       ctx.textAlign = "left";
       ctx.fillText($("#idName").textContent, pad + 18, y + mugSize - 22);
       ctx.textAlign = "right";
-      ctx.fillText("FILE " + $("#caseNo").textContent, pad + mugSize - 18, y + mugSize - 22);
+      ctx.fillText("档案 " + $("#caseNo").textContent, pad + mugSize - 18, y + mugSize - 22);
 
       y += mugSize + 36;
 
       // Score box
-      ctx.strokeStyle = "#00ff66";
+      ctx.strokeStyle = "#ffd700";
       ctx.lineWidth = 3;
-      ctx.strokeRect(pad, y, W - pad * 2, 200);
-      ctx.fillStyle = "rgba(0,255,102,0.05)";
-      ctx.fillRect(pad, y, W - pad * 2, 200);
-      ctx.fillStyle = "#00ff66";
+      ctx.strokeRect(pad, y, W - pad * 2, 210);
+      ctx.fillStyle = "rgba(238,28,37,0.15)";
+      ctx.fillRect(pad, y, W - pad * 2, 210);
+      ctx.fillStyle = "#ffd700";
       ctx.font = "900 160px ui-monospace, monospace";
       ctx.textAlign = "left";
-      ctx.fillText($("#scoreNum").textContent, pad + 30, y + 158);
-      ctx.fillStyle = "#9adfa6";
+      ctx.fillText($("#scoreNum").textContent, pad + 30, y + 164);
+      ctx.fillStyle = "#ffd700";
       ctx.font = "700 18px ui-monospace, monospace";
-      ctx.fillText("CRACKED SCORE / 100", pad + 360, y + 70);
-      ctx.fillStyle = "#ffb300";
+      ctx.fillText("社会信用分 / 100", pad + 360, y + 60);
+      ctx.fillStyle = "#ee1c25";
       ctx.font = "900 26px ui-monospace, monospace";
-      wrapText(ctx, $("#verdict").textContent, pad + 360, y + 110, W - pad * 2 - 540, 32);
-      // Tier badge
+      wrapText(ctx, $("#verdict").textContent, pad + 360, y + 100, W - pad * 2 - 540, 32);
+
+      // Tier badge (Chinese char)
       const tier = $("#tierBadge").textContent;
-      const tierColor = tier.startsWith("S") ? "#00ff66" : tier === "A" ? "#ffb300" : "#ff2e2e";
+      const isS = tier === "模范" || tier === "优";
+      const isA = tier === "良";
+      const tierColor = isS ? "#ffd700" : isA ? "#ffaa1a" : "#ee1c25";
       ctx.save();
-      ctx.translate(W - pad - 90, y + 100);
+      ctx.translate(W - pad - 90, y + 110);
       ctx.rotate(-0.1);
       ctx.strokeStyle = tierColor;
       ctx.lineWidth = 5;
-      ctx.strokeRect(-60, -60, 120, 120);
+      ctx.strokeRect(-65, -65, 130, 130);
       ctx.fillStyle = tierColor;
-      ctx.font = "900 78px ui-monospace, monospace";
+      ctx.font = "900 70px 'PingFang SC','Hiragino Sans GB','Microsoft YaHei',ui-monospace,monospace";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillText(tier, 0, 6);
       ctx.restore();
       ctx.textBaseline = "alphabetic";
 
-      y += 240;
+      y += 250;
 
       // Stats
-      ctx.strokeStyle = "rgba(0,255,102,0.45)";
+      ctx.strokeStyle = "rgba(255,215,0,0.45)";
       ctx.setLineDash([6, 6]);
       const rows = [...$("#stats").querySelectorAll(".row")];
       const rowH = 52;
@@ -905,12 +903,12 @@
       ctx.setLineDash([]);
       rows.forEach((r, i) => {
         const ry = y + 12 + i * rowH + 36;
-        ctx.fillStyle = "#9adfa6";
+        ctx.fillStyle = "#ffd700";
         ctx.font = "700 18px ui-monospace, monospace";
         ctx.textAlign = "left";
         ctx.fillText(r.querySelector(".k").textContent, pad + 24, ry);
         const v = r.querySelector(".v");
-        ctx.fillStyle = v.classList.contains("warn") ? "#ff2e2e" : v.classList.contains("amber") ? "#ffb300" : "#00ff66";
+        ctx.fillStyle = v.classList.contains("warn") ? "#ee1c25" : v.classList.contains("amber") ? "#ffaa1a" : "#ffd700";
         ctx.font = "900 22px ui-monospace, monospace";
         ctx.textAlign = "right";
         ctx.fillText(v.textContent, W - pad - 24, ry);
@@ -919,24 +917,24 @@
       y += sBoxH + 28;
 
       // Rec
-      ctx.fillStyle = "rgba(255,46,46,0.08)";
-      ctx.fillRect(pad, y, W - pad * 2, 200);
-      ctx.fillStyle = "#ff2e2e";
-      ctx.fillRect(pad, y, 6, 200);
-      ctx.fillStyle = "#ff2e2e";
+      ctx.fillStyle = "rgba(238,28,37,0.18)";
+      ctx.fillRect(pad, y, W - pad * 2, 220);
+      ctx.fillStyle = "#ee1c25";
+      ctx.fillRect(pad, y, 6, 220);
+      ctx.fillStyle = "#ee1c25";
       ctx.font = "900 18px ui-monospace, monospace";
       ctx.textAlign = "left";
-      ctx.fillText("▸ RECOMMENDED ACTION", pad + 24, y + 36);
-      ctx.fillStyle = "#ffd2d2";
+      ctx.fillText("▸ 建议处理 · RECOMMENDED ACTION", pad + 24, y + 36);
+      ctx.fillStyle = "#ffe9bb";
       ctx.font = "700 22px ui-monospace, monospace";
-      wrapText(ctx, $("#rec").textContent, pad + 24, y + 72, W - pad * 2 - 48, 30);
+      wrapText(ctx, $("#rec").textContent, pad + 24, y + 76, W - pad * 2 - 48, 30);
 
       // Footer + URL
-      ctx.fillStyle = "rgba(230,255,230,0.55)";
+      ctx.fillStyle = "rgba(255,215,0,0.6)";
       ctx.font = "700 16px ui-monospace, monospace";
       ctx.textAlign = "center";
-      ctx.fillText("★ NS DOSSIER · " + $("#examiner").textContent + " ★", W / 2, H - 70);
-      ctx.fillStyle = "#00ff66";
+      ctx.fillText("★ 中央网络国 · MINISTRY OF NETWORK STATES · " + $("#examiner").textContent + " ★", W / 2, H - 70);
+      ctx.fillStyle = "#ee1c25";
       ctx.font = "900 22px ui-monospace, monospace";
       ctx.fillText("noevafoundation.github.io/idea-2", W / 2, H - 36);
 
@@ -966,18 +964,13 @@
     $("#flipBtn").addEventListener("click", () => {
       startCam(state.facing === "user" ? "environment" : "user");
     });
-    $("#exitBtn").addEventListener("click", () => {
-      stopCam();
-      show("boot");
-    });
+    $("#exitBtn").addEventListener("click", () => { stopCam(); show("boot"); });
     $("#scanBtn").addEventListener("click", runScan);
     $("#againBtn").addEventListener("click", async () => {
       show("cam");
       if (!state.stream) await startCam(state.facing);
     });
     $("#shareBtn").addEventListener("click", shareDossier);
-
-    // Prevent double-tap zoom
     document.addEventListener("gesturestart", (e) => e.preventDefault());
   </script>
 </body>
