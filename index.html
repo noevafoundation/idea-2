@@ -306,6 +306,20 @@
       letter-spacing: .05em;
       line-height: 1.15;
     }
+    .tier-badge {
+      align-self: center;
+      width: 64px; height: 64px;
+      display: grid; place-items: center;
+      font-size: 2rem; font-weight: 900;
+      color: var(--warn);
+      border: 3px solid var(--warn);
+      box-shadow: 0 0 18px rgba(255,46,46,.4), inset 0 0 12px rgba(255,46,46,.15);
+      transform: rotate(-6deg);
+      letter-spacing: 0;
+      font-variant-numeric: tabular-nums;
+    }
+    .tier-badge.s { color: var(--accent); border-color: var(--accent); box-shadow: 0 0 18px rgba(0,255,102,.5), inset 0 0 12px rgba(0,255,102,.2); }
+    .tier-badge.a { color: var(--amber); border-color: var(--amber); box-shadow: 0 0 18px rgba(255,179,0,.45), inset 0 0 12px rgba(255,179,0,.15); }
     .stats {
       display: flex; flex-direction: column;
       border: 1px dashed rgba(0,255,102,.4);
@@ -476,6 +490,7 @@
           <div class="lab">CRACKED SCORE / 100</div>
           <div class="verdict" id="verdict">PENDING</div>
         </div>
+        <div class="tier-badge" id="tierBadge">?</div>
       </div>
 
       <div class="stats" id="stats"></div>
@@ -521,13 +536,13 @@
     ];
 
     const VERDICTS = [
-      { min: 92, txt: "GENERATIONAL TALENT — ALERT A16Z", rec: "Acquire immediately. Issue NS lifetime pass. Cancel all of subject's meetings — they are doing the real work." },
-      { min: 80, txt: "CRACKED — FUND ON SIGHT",          rec: "Lead seed. Do not over-diligence. Subject will be unreachable in 6 weeks." },
-      { min: 68, txt: "ACQUIHIRE BAIT — STRONG TWEET GAME", rec: "Recommend Google soft-landing in 14–18 months. Until then, hype publicly, short privately." },
-      { min: 55, txt: "MID — NPC-CODED",                   rec: "Subject means well. Suggest a co-founder. Do not let them present alone." },
-      { min: 42, txt: "TOURIST — RETURN TO CONSULTING",     rec: "Withdraw NS lanyard. Issue polite redirect to McKinsey. They will be happier." },
-      { min: 25, txt: "FRAUD DETECTED — INITIATE COPE PROTOCOL", rec: "Revoke kopi privileges. Subject is one bad podcast away from a Substack." },
-      { min: 0,  txt: "NORMIE INFILTRATOR — EJECT",         rec: "Quietly remove from group chats. Do not engage. Notify Balaji." },
+      { min: 92, tier: "S+", txt: "GENERATIONAL TALENT — ALERT A16Z", rec: "Acquire immediately. Issue NS lifetime pass. Cancel all of subject's meetings — they are doing the real work." },
+      { min: 80, tier: "S",  txt: "CRACKED — FUND ON SIGHT",          rec: "Lead seed. Do not over-diligence. Subject will be unreachable in 6 weeks." },
+      { min: 68, tier: "A",  txt: "ACQUIHIRE BAIT — STRONG TWEET GAME", rec: "Recommend Google soft-landing in 14–18 months. Until then, hype publicly, short privately." },
+      { min: 55, tier: "B",  txt: "MID — NPC-CODED",                   rec: "Subject means well. Suggest a co-founder. Do not let them present alone." },
+      { min: 42, tier: "C",  txt: "TOURIST — RETURN TO CONSULTING",     rec: "Withdraw NS lanyard. Issue polite redirect to McKinsey. They will be happier." },
+      { min: 25, tier: "D",  txt: "FRAUD DETECTED — INITIATE COPE PROTOCOL", rec: "Revoke kopi privileges. Subject is one bad podcast away from a Substack." },
+      { min: 0,  tier: "F",  txt: "NORMIE INFILTRATOR — EJECT",         rec: "Quietly remove from group chats. Do not engage. Notify Balaji." },
     ];
 
     const ROLL_LINES = [
@@ -734,6 +749,11 @@
       $("#scoreNum").textContent = score;
       $("#verdict").textContent = verdict.txt;
       $("#rec").textContent = verdict.rec;
+      const badge = $("#tierBadge");
+      badge.textContent = verdict.tier;
+      badge.classList.remove("s","a");
+      if (verdict.tier.startsWith("S")) badge.classList.add("s");
+      else if (verdict.tier === "A")    badge.classList.add("a");
       $("#caseNo").textContent = "NS-" + String(Math.floor(Math.random() * 9000 + 1000));
       $("#idName").textContent = pick(NAMES) + "-" + String(Math.floor(Math.random() * 900 + 100));
       $("#idTime").textContent = new Date().toISOString().slice(11, 19) + "Z";
@@ -855,7 +875,23 @@
       ctx.fillText("CRACKED SCORE / 100", pad + 360, y + 70);
       ctx.fillStyle = "#ffb300";
       ctx.font = "900 26px ui-monospace, monospace";
-      wrapText(ctx, $("#verdict").textContent, pad + 360, y + 110, W - pad * 2 - 380, 32);
+      wrapText(ctx, $("#verdict").textContent, pad + 360, y + 110, W - pad * 2 - 540, 32);
+      // Tier badge
+      const tier = $("#tierBadge").textContent;
+      const tierColor = tier.startsWith("S") ? "#00ff66" : tier === "A" ? "#ffb300" : "#ff2e2e";
+      ctx.save();
+      ctx.translate(W - pad - 90, y + 100);
+      ctx.rotate(-0.1);
+      ctx.strokeStyle = tierColor;
+      ctx.lineWidth = 5;
+      ctx.strokeRect(-60, -60, 120, 120);
+      ctx.fillStyle = tierColor;
+      ctx.font = "900 78px ui-monospace, monospace";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(tier, 0, 6);
+      ctx.restore();
+      ctx.textBaseline = "alphabetic";
 
       y += 240;
 
@@ -895,11 +931,14 @@
       ctx.font = "700 22px ui-monospace, monospace";
       wrapText(ctx, $("#rec").textContent, pad + 24, y + 72, W - pad * 2 - 48, 30);
 
-      // Footer
+      // Footer + URL
       ctx.fillStyle = "rgba(230,255,230,0.55)";
       ctx.font = "700 16px ui-monospace, monospace";
       ctx.textAlign = "center";
-      ctx.fillText("★ NS DOSSIER · CRACKED.EXE · " + $("#examiner").textContent + " ★", W / 2, H - 40);
+      ctx.fillText("★ NS DOSSIER · " + $("#examiner").textContent + " ★", W / 2, H - 70);
+      ctx.fillStyle = "#00ff66";
+      ctx.font = "900 22px ui-monospace, monospace";
+      ctx.fillText("noevafoundation.github.io/idea-2", W / 2, H - 36);
 
       return new Promise((res) => c.toBlob(res, "image/png", 0.92));
     }
