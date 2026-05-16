@@ -655,11 +655,40 @@
       }
     }
 
+    // ────── AUDIO + HAPTICS ──────
+    let audioCtx = null;
+    function audio() { return audioCtx ||= new (window.AudioContext || window.webkitAudioContext)(); }
+    function beep(freq = 880, dur = 0.08, type = "square", gain = 0.06) {
+      try {
+        const ac = audio();
+        const o = ac.createOscillator();
+        const g = ac.createGain();
+        o.type = type; o.frequency.value = freq;
+        g.gain.value = gain;
+        o.connect(g).connect(ac.destination);
+        const t = ac.currentTime;
+        g.gain.setValueAtTime(gain, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+        o.start(t); o.stop(t + dur);
+      } catch (e) {}
+    }
+    function buzz(p) { try { navigator.vibrate?.(p); } catch (e) {} }
+
     // ────── SCAN FLOW ──────
     async function runScan() {
+      buzz([20, 30, 20]);
+      beep(1200, 0.05, "square", 0.05);
+      setTimeout(() => beep(800, 0.05, "square", 0.05), 60);
+      setTimeout(() => beep(1600, 0.08, "sawtooth", 0.04), 140);
       state.snapshot = state.stream ? snapshot() : null;
       paintCanvas($("#scanFrame"), state.snapshot);
       show("scanning");
+      // Telegraph during scan
+      let n = 0;
+      const sfx = setInterval(() => {
+        beep(400 + Math.random() * 1200, 0.03, "square", 0.025);
+        if (++n > 12) clearInterval(sfx);
+      }, 200);
 
       const phases = ["CALIBRATING APERTURE","BIOMETRIC LOCK","CROSS-REF NS DATABASE","TIER ASSESSMENT","COMPILING DOSSIER"];
       const rollEl = $("#scanRoll");
@@ -675,8 +704,15 @@
       await new Promise((r) => setTimeout(r, 2800));
       clearInterval(phaseTimer);
       clearInterval(rollTimer);
+      clearInterval(sfx);
       buildDossier();
       show("result");
+      // Reveal sting — descending chord = doom, ascending = win
+      const sc = parseInt($("#scoreNum").textContent, 10);
+      const win = sc >= 70;
+      const seq = win ? [523, 659, 784, 1047] : [392, 311, 233, 196];
+      seq.forEach((f, i) => setTimeout(() => beep(f, 0.18, "square", 0.05), i * 90));
+      buzz(win ? [40, 60, 40, 60, 120] : [200, 80, 200]);
     }
 
     function scoreToVerdict(s) {
